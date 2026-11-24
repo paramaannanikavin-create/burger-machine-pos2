@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#c8102e">
+  <meta name="description" content="Cashier order management for a Burger Machine-style shop.">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <title>Burger Machine POS</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">BM</div>
+    <div class="brand-copy"><strong>BURGER MACHINE</strong><small>Cashier POS</small></div>
+    <div class="local-pill"><span></span> This phone</div>
+  </header>
+
+  <nav class="tabs" aria-label="Main navigation">
+    <button class="tab active" data-view="new">＋ New Order</button>
+    <button class="tab" data-view="hub">Order Hub <b id="active-count">0</b></button>
+    <button class="tab" data-view="history">History</button>
+    <button class="tab" data-view="menu">Menu & Prices</button>
+  </nav>
+
+  <main>
+    <section id="view-new" class="view active">
+      <div class="section-head"><div><p class="eyebrow">CASHIER</p><h1>New Order</h1></div><div class="order-draft">Next #<strong id="next-number">1001</strong></div></div>
+      <div class="order-fields">
+        <label>Customer name <span>(optional)</span><input id="customer-name" maxlength="60" placeholder="Name / walk-in"></label>
+        <label>Order note <span>(optional)</span><input id="order-note" maxlength="160" placeholder="Special instructions"></label>
+      </div>
+      <div class="menu-layout">
+        <div class="menu-side">
+          <div class="category-chips" id="category-chips"></div>
+          <div id="product-grid" class="product-grid"></div>
+        </div>
+        <aside class="cart-panel">
+          <div class="cart-title"><h2>Current order</h2><button class="text-btn" id="clear-cart">Clear</button></div>
+          <div id="cart-items" class="cart-items"><p class="empty">Tap menu items to add them.</p></div>
+          <div class="total-row"><span>Total</span><strong id="cart-total">₱0.00</strong></div>
+          <button id="confirm-order" class="primary-btn" disabled>Confirm Order</button>
+        </aside>
+      </div>
+    </section>
+
+    <section id="view-hub" class="view">
+      <div class="section-head"><div><p class="eyebrow">LIVE QUEUE</p><h1>Order Hub</h1></div><button id="refresh-hub" class="secondary-btn">↻ Refresh</button></div>
+      <div id="hub-list" class="order-list"></div>
+    </section>
+
+    <section id="view-history" class="view">
+      <div class="section-head"><div><p class="eyebrow">PAST ORDERS</p><h1>Order History</h1></div></div>
+      <input id="history-search" class="search" placeholder="Search order number or customer name…" autocomplete="off">
+      <div id="history-list" class="order-list"></div>
+    </section>
+
+    <section id="view-menu" class="view">
+      <div class="section-head"><div><p class="eyebrow">CASHIER SETTINGS</p><h1>Menu & Prices</h1></div><button id="add-product" class="primary-btn compact">＋ Add item</button></div>
+      <p class="helper">Edit prices or menu items here. Changes are saved on this phone.</p>
+      <div id="manage-menu" class="manage-menu"></div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <dialog id="product-dialog">
+    <form method="dialog" id="product-form">
+      <div class="dialog-head"><h2 id="product-dialog-title">Add menu item</h2><button class="icon-btn" value="cancel" aria-label="Close">×</button></div>
+      <input type="hidden" id="edit-product-id">
+      <label>Product name<input id="edit-product-name" required maxlength="70" placeholder="Item name"></label>
+      <label>Category<select id="edit-product-category"></select></label>
+      <label>Price (₱)<input id="edit-product-price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00"></label>
+      <p class="helper">For sauces with no supplied price, leave price empty to keep them as ₱0.00. You can set a price later.</p>
+      <div class="dialog-actions"><button type="button" class="secondary-btn" id="remove-product">Remove item</button><button type="submit" class="primary-btn">Save item</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="confirm-dialog">
+    <form method="dialog">
+      <h2 id="confirm-title">Please confirm</h2><p id="confirm-message"></p>
+      <div class="dialog-actions"><button class="secondary-btn" value="cancel">Keep</button><button id="confirm-yes" class="danger-btn" value="yes">Confirm</button></div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

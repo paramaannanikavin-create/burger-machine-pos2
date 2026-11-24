@@ -1,0 +1,10 @@
+{
+  "name": "Burger Machine Cashier POS",
+  "short_name": "BM Cashier",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f5f5",
+  "theme_color": "#c8102e",
+  "description": "Cashier order management app"
+}
